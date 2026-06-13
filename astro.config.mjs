@@ -23,7 +23,7 @@ export default defineConfig({
     // plugins: /** @type {any} */ ([tailwindcss()]),
     plugins: [tailwindcss()],
   },
-  output: 'static',  // 静态站点模式（默认）
+  // output: 'static',  // 静态站点模式（默认）
 	fonts: [
 		{
 			provider: fontProviders.local(),
