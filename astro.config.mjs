@@ -26,11 +26,7 @@ export default defineConfig({
   },
 
   // output: 'static',  // 静态站点模式（默认）
-  image: {
-    service: {
-      entrypoint: 'astro/assets/services/squoosh',  // ← 纯 JS/WASM，Workers 兼容
-    }
-  },
+
   fonts: [
       {
           provider: fontProviders.local(),
@@ -57,5 +53,10 @@ export default defineConfig({
 	],
   // output: 'hybrid',
   output: 'server',
-  adapter: cloudflare(),
+  adapter: cloudflare(
+  {
+    // 关键修改：禁用图片优化服务，直接传递原图
+    imageService: 'passthrough',
+  }
+  ),
 });
