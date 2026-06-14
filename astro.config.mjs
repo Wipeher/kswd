@@ -12,40 +12,46 @@ import tailwindcss from '@tailwindcss/vite';
 
 // https://astro.build/config
 export default defineConfig({
-	site: 'https://example.com',
-	integrations: [
-    mdx(), 
-    sitemap() // 自动生成站点地图（SEO 必备）
-  ],
-  
+  site: 'https://example.com',
+
+  integrations: [
+  mdx(), 
+  sitemap() // 自动生成站点地图（SEO 必备）
+],
+
   // 2. 在 vite 配置中添加插件
   vite: {
     // plugins: /** @type {any} */ ([tailwindcss()]),
     plugins: [tailwindcss()],
   },
+
   // output: 'static',  // 静态站点模式（默认）
-	fonts: [
-		{
-			provider: fontProviders.local(),
-			name: 'Atkinson',
-			cssVariable: '--font-atkinson',
-			fallbacks: ['sans-serif'],
-			options: {
-				variants: [
-					{
-						src: ['./src/assets/fonts/atkinson-regular.woff'],
-						weight: 400,
-						style: 'normal',
-						display: 'swap',
-					},
-					{
-						src: ['./src/assets/fonts/atkinson-bold.woff'],
-						weight: 700,
-						style: 'normal',
-						display: 'swap',
-					},
-				],
-			},
-		},
+
+  fonts: [
+      {
+          provider: fontProviders.local(),
+          name: 'Atkinson',
+          cssVariable: '--font-atkinson',
+          fallbacks: ['sans-serif'],
+          options: {
+              variants: [
+                  {
+                      src: ['./src/assets/fonts/atkinson-regular.woff'],
+                      weight: 400,
+                      style: 'normal',
+                      display: 'swap',
+                  },
+                  {
+                      src: ['./src/assets/fonts/atkinson-bold.woff'],
+                      weight: 700,
+                      style: 'normal',
+                      display: 'swap',
+                  },
+              ],
+          },
+      },
 	],
+  // output: 'hybrid',
+  output: 'server',
+  adapter: cloudflare(),
 });
