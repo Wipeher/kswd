@@ -3,7 +3,7 @@
 import mdx from '@astrojs/mdx';
 import sitemap from '@astrojs/sitemap';
 import { defineConfig, fontProviders } from 'astro/config';
-import cloudflare from '@astrojs/cloudflare';
+// import cloudflare from '@astrojs/cloudflare';
 import rss from '@astrojs/rss';
 
 
@@ -52,6 +52,5 @@ export default defineConfig({
 	],
   // output: 'hybrid',
   output: 'static',
-  adapter: cloudflare(
-  ),
+  // adapter: cloudflare(),
 });
