@@ -26,7 +26,11 @@ export default defineConfig({
   },
 
   // output: 'static',  // 静态站点模式（默认）
-
+  image: {
+    service: {
+      entrypoint: 'astro/assets/services/squoosh',  // ← 纯 JS/WASM，Workers 兼容
+    }
+  },
   fonts: [
       {
           provider: fontProviders.local(),
