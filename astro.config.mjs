@@ -12,8 +12,8 @@ import tailwindcss from '@tailwindcss/vite';
 
 // https://astro.build/config
 export default defineConfig({
-  site: 'https://kswd.wipeheryolo.workers.dev',
-
+  // site: 'https://kswd.wipeheryolo.workers.dev',
+  site: 'https://kswd.pages.dev',
   integrations: [
   mdx(), 
   sitemap() // 自动生成站点地图（SEO 必备）

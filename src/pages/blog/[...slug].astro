@@ -6,7 +6,7 @@ export async function getStaticPaths() {
   const posts = await getCollection('blog');
   // 关键：使用 post.slug 而不是 post.id
   return posts.map(post => ({
-    params: { slug: post.slug },
+    params: { slug: post.id },
     props: { post },
   }));
 }
