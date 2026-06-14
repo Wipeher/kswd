@@ -4,6 +4,7 @@ pubDate: 2024-01-01
 description: "这是我的第一篇博客文章"
 author: "你的名字"
 tags: ["Astro", "Cloudflare"]
+draft: false # 添加这一行
 ---
 
 # 欢迎来到我的博客

@@ -11,9 +11,29 @@ export async function getStaticPaths() {
 }
 
 const post = Astro.props;
-const { Content } = await render(post);
+
+console.log('Post title:', post?.data?.title);  // 调试日志
+console.log('Post body length:', post?.body?.length);
+
+// const { Content } = await render(post);
+
+let contentHtml = '';
+try {
+  const result = await render(post);
+  contentHtml = result?.html || '无法渲染';
+} catch (e) {
+  contentHtml = `渲染错误: ${e.message}`;
+}
+
+
 ---
 
 <BlogPost {...post.data}>
-  <Content />
+  <div>调试信息：标题 - {post?.data?.title || '无标题'}</div>
+  <div set:html={contentHtml} />
 </BlogPost>
+
+
+//<BlogPost {...post.data}>
+//  <Content />
+//</BlogPost>
