@@ -1,16 +1,10 @@
 ---
-// 完全绕过 Astro 内容集合 API，直接读取并转换 Markdown 文件
-import { getCollection } from 'astro:content';
+import { getCollection, render } from 'astro:content';
 import BlogPost from '../../layouts/BlogPost.astro';
-import MarkdownIt from 'markdown-it';
-
-// 初始化 Markdown 转换器
-const md = new MarkdownIt();
 
 export async function getStaticPaths() {
-  // 1. 获取所有文章的基本信息
   const posts = await getCollection('blog');
-  // 2. 为每一篇文章生成对应的路径
+  // 关键：使用 post.slug 而不是 post.id
   return posts.map(post => ({
     params: { slug: post.slug },
     props: { post },
@@ -18,15 +12,11 @@ export async function getStaticPaths() {
 }
 
 const { post } = Astro.props;
-
-// 核心修改点：手动读取并转换 Markdown 内容
-// 从文章条目中获取原始内容
-const rawContent = await post.entry();
-// 使用 markdown-it 将原始 Markdown 转换为 HTML 字符串
-const contentHtml = md.render(rawContent.body);
+// 使用 Astro 内置的 render 函数
+const { Content, headings, remarkPluginTitle } = await render(post);
 ---
 
 <BlogPost {...post.data}>
-  {/* 将转换好的 HTML 字符串直接传递给页面 */}
-  <Fragment set:html={contentHtml} />
+  {/* Astro 内置的 <Content /> 组件会渲染 Markdown */}
+  <Content />
 </BlogPost>
