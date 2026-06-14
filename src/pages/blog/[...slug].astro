@@ -1,6 +1,11 @@
 ---
 import { type CollectionEntry, getCollection, render } from 'astro:content';
 import BlogPost from '../../layouts/BlogPost.astro';
+import MarkdownIt from 'markdown-it';  // 需要安装
+
+// 初始化 Markdown 解析器
+const md = new MarkdownIt();
+
 
 export async function getStaticPaths() {
 	const posts = await getCollection('blog');
@@ -12,9 +17,20 @@ export async function getStaticPaths() {
 type Props = CollectionEntry<'blog'>;
 
 const post = Astro.props;
-const { Content } = await render(post);
+// const { Content } = await render(post);
+const Content = await post.render(); // 尝试使用 Astro 内置渲染
+let htmlContent = '';
+if (Content && Content().html) {
+  // 如果 Astro 渲染成功
+  htmlContent = Content().html;
+} else {
+  // 降级方案：手动解析
+  const { body } = await post.entry();
+  htmlContent = md.render(body);
+}
 ---
 
 <BlogPost {...post.data}>
-	<Content />
+	// <Content />
+  <Fragment set:html={htmlContent} />
 </BlogPost>
