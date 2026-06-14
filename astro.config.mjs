@@ -54,9 +54,5 @@ export default defineConfig({
   // output: 'hybrid',
   output: 'server',
   adapter: cloudflare(
-  {
-    // 关键修改：禁用图片优化服务，直接传递原图
-    imageService: 'passthrough',
-  }
   ),
 });
