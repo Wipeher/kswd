@@ -18,7 +18,6 @@ export default defineConfig({
   mdx(), 
   sitemap() // 自动生成站点地图（SEO 必备）
 ],
-
   // 2. 在 vite 配置中添加插件
   vite: {
     // plugins: /** @type {any} */ ([tailwindcss()]),
