@@ -3,8 +3,18 @@
   https://github.com/HermanMartinus/bearblog/blob/297026a877bc2ab2b3bdfbd6b9f7961c350917dd/templates/styles/blog/default.css
   License MIT: https://github.com/HermanMartinus/bearblog/blob/master/LICENSE.md
  */
+/* src/styles/global.css */
+@import "tailwindcss";
 
- 
+@layer base {
+  :root {
+    --color-primary: #6366f1;
+    --color-text: #1f2937;
+  }
+}
+
+
+
 :root {
 	--accent: #2337ff;
 	--accent-dark: #000d8a;
