@@ -1,5 +1,5 @@
-// Place any global data in this file.
-// You can import this data from anywhere in your site by using the `import` keyword.
+// Global site metadata
+// Edit these to personalize your blog.
 
-export const SITE_TITLE = 'Astro Blog';
-export const SITE_DESCRIPTION = 'Welcome to my website!';
+export const SITE_TITLE = "K's Blog";
+export const SITE_DESCRIPTION = '思考 · 记录 · 分享';

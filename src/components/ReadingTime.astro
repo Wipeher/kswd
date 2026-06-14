@@ -1,0 +1,29 @@
+---
+// ReadingTime.astro — Display estimated reading time based on word count
+// Usage: <ReadingTime text={postBody} /> or <ReadingTime minutes={5} />
+
+interface Props {
+  text?: string;
+  minutes?: number;
+  lang?: 'zh' | 'en';
+}
+
+const { text, minutes: explicitMinutes, lang = 'zh' } = Astro.props;
+
+// Chinese: ~300 chars/min, English: ~200 words/min
+let mins = explicitMinutes;
+if (mins === undefined && text) {
+  const stripped = text.replace(/\s+/g, ' ');
+  const chineseChars = (stripped.match(/[一-鿿]/g) || []).length;
+  const englishWords = stripped.replace(/[一-鿿]/g, '').split(/\s+/).filter(Boolean).length;
+  mins = Math.max(1, Math.round(chineseChars / 300 + englishWords / 200));
+}
+---
+
+{
+  mins !== undefined && (
+    <span class="text-sm text-text-tertiary tracking-wide">
+      {lang === 'zh' ? `阅读时间约 ${mins} 分钟` : `~${mins} min read`}
+    </span>
+  )
+}

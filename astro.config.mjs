@@ -15,9 +15,15 @@ export default defineConfig({
   // site: 'https://kswd.wipeheryolo.workers.dev',
   site: 'https://kswd.pages.dev',
   integrations: [
-  mdx(), 
+  mdx(),
   sitemap() // 自动生成站点地图（SEO 必备）
 ],
+  markdown: {
+    shikiConfig: {
+      theme: 'github-light',
+      wrap: true,
+    },
+  },
   // 2. 在 vite 配置中添加插件
   vite: {
     // plugins: /** @type {any} */ ([tailwindcss()]),

@@ -4,7 +4,6 @@ import BlogPost from '../../layouts/BlogPost.astro';
 
 export async function getStaticPaths() {
   const posts = await getCollection('blog');
-  // 关键：使用 post.slug 而不是 post.id
   return posts.map(post => ({
     params: { slug: post.id },
     props: { post },
@@ -12,11 +11,38 @@ export async function getStaticPaths() {
 }
 
 const { post } = Astro.props;
-// 使用 Astro 内置的 render 函数
-const { Content, headings, remarkPluginTitle } = await render(post);
+
+// Compute reading time from raw markdown body
+function estimateReadingTime(body: string): number {
+  const stripped = body.replace(/\s+/g, ' ');
+  const chineseChars = (stripped.match(/[一-鿿]/g) || []).length;
+  const englishWords = stripped.replace(/[一-鿿]/g, '').split(/\s+/).filter(Boolean).length;
+  return Math.max(1, Math.round(chineseChars / 300 + englishWords / 200));
+}
+
+// Get adjacent posts for prev/next navigation
+const allPosts = (await getCollection('blog')).sort(
+  (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
+);
+const currentIndex = allPosts.findIndex(p => p.id === post.id);
+
+const prevPost = currentIndex < allPosts.length - 1
+  ? { id: allPosts[currentIndex + 1].id, title: allPosts[currentIndex + 1].data.title }
+  : null;
+const nextPost = currentIndex > 0
+  ? { id: allPosts[currentIndex - 1].id, title: allPosts[currentIndex - 1].data.title }
+  : null;
+
+const readingTimeMinutes = estimateReadingTime(post.body || '');
+
+const { Content } = await render(post);
 ---
 
-<BlogPost {...post.data}>
-  {/* Astro 内置的 <Content /> 组件会渲染 Markdown */}
+<BlogPost
+  {...post.data}
+  readingTimeMinutes={readingTimeMinutes}
+  prevPost={prevPost}
+  nextPost={nextPost}
+>
   <Content />
 </BlogPost>
