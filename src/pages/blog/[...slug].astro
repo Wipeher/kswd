@@ -1,48 +1,19 @@
 ---
-
-import { type CollectionEntry, getCollection, render } from 'astro:content';
+import { getCollection, render } from 'astro:content';
 import BlogPost from '../../layouts/BlogPost.astro';
 
-
-
 export async function getStaticPaths() {
-	const posts = await getCollection('blog');
-	return posts.map((post) => ({
-		params: { slug: post.slug },
-		props: post,
-	}));
+  const posts = await getCollection('blog');
+  return posts.map((post) => ({
+    params: { slug: post.slug },
+    props: post,
+  }));
 }
-type Props = CollectionEntry<'blog'>;
 
 const post = Astro.props;
-
-// 调试：如果没有文章数据，这个变量会是 true
-const hasNoPost = !post;
-const hasNoContent = !post;
-
 const { Content } = await render(post);
-
-// 临时调试代码：如果文章数据为空，会在页面上显示错误信息
-if (!post) {
-  return <div>错误：未找到文章数据</div>;
-}
-if (!Content) {
-  return <div>错误：无法解析文章内容</div>;
-}
-
 ---
 
-
-{hasNoPost && <div>错误：未找到文章数据</div>}
-{hasNoContent && <div>错误：无法解析文章内容</div>}
-
-{!hasNoPost && !hasNoContent && (
-  <BlogPost {...post.data}>
-    <Content />
-  </BlogPost>
-)}
-
-
-//<BlogPost {...post.data}>
-//  <Content />
-//</BlogPost>
+<BlogPost {...post.data}>
+  <Content />
+</BlogPost>
